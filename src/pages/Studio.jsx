@@ -1,97 +1,176 @@
-import React, { useState } from 'react';
-import { Upload, Image as ImageIcon, Sparkles, CheckCircle2, Smartphone, Share2 } from 'lucide-react';
-import Widget from '../components/Widget';
+import React, { useState, useEffect } from 'react';
+import { Send, Video, Layout, Trash2, Eye, MessageSquare, Share2, Image as ImageIcon } from 'lucide-react';
 
 const Studio = () => {
-  const [title, setTitle] = useState("My Awesome Video Title");
-  const [isUploading, setIsUploading] = useState(false);
+  const [post, setPost] = useState({
+    title: "",
+    category: "Luxury Lifestyle",
+    description: "",
+    thumbnail: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80"
+  });
+
+  const [feed, setFeed] = useState([]);
+
+  // Load from LocalStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('aura_studio_v2');
+    if (saved) setFeed(JSON.parse(saved));
+  }, []);
+
+  const handlePublish = () => {
+    if (!post.title) return alert("Alishba, Title is mandatory for the Aura vibes! ✨");
+
+    const newEntry = {
+      ...post,
+      id: Date.now(),
+      date: new Date().toLocaleDateString(),
+      views: "0",
+      likes: "0"
+    };
+
+    const updatedFeed = [newEntry, ...feed];
+    setFeed(updatedFeed);
+    localStorage.setItem('aura_studio_v2', JSON.stringify(updatedFeed));
+    
+    // Reset form but keep thumbnail
+    setPost({ ...post, title: "", description: "" });
+    alert("Published to AuraOS Network! 🚀");
+  };
+
+  const deleteEntry = (id) => {
+    const filtered = feed.filter(item => item.id !== id);
+    setFeed(filtered);
+    localStorage.setItem('aura_studio_v2', JSON.stringify(filtered));
+  };
 
   return (
-    <div className="w-full space-y-10 pb-24 px-2 md:px-0">
-      {/* HEADER */}
-      <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-white/5 pb-8 gap-6">
+    <div className="min-h-screen bg-[#050505] text-white p-4 md:p-6 lg:p-10 font-sans selection:bg-yellow-500/30">
+      
+      {/* --- TOP BAR --- */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
         <div>
-          <h1 className="text-3xl md:text-5xl font-extralight tracking-tighter text-white">
-            Content<span className="text-royal-gold font-normal italic">Studio</span>
+          <h1 className="text-3xl font-black uppercase tracking-[0.3em] text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-yellow-500 to-yellow-700">
+            Aura Studio Pro
           </h1>
-          <p className="text-white/20 mt-2 font-light text-sm italic">Design. Preview. Publish.</p>
+          <p className="text-gray-500 text-[10px] uppercase tracking-widest mt-1">Authorized Access: Alishba Dev</p>
         </div>
-        <button 
-          onClick={() => setIsUploading(true)}
-          className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 bg-royal-gold rounded-2xl text-black font-bold hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] transition-all"
-        >
-          {isUploading ? <CheckCircle2 size={20} /> : <Upload size={20} />}
-          {isUploading ? "PUBLISHED!" : "PUBLISH NOW"}
-        </button>
-      </header>
+        <div className="flex gap-3">
+          <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
+            <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div> System Online
+          </div>
+        </div>
+      </div>
 
-      {/* --- THE MAIN DESKTOP GRID --- */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start w-full overflow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        {/* LEFT COLUMN: Editor (8 of 12 Columns) */}
-        <div className="order-2 lg:order-1 lg:col-span-8 w-full space-y-8">
-          <Widget title="Video Metadata">
-            <div className="mt-6 space-y-6">
-              <div className="space-y-2">
-                <label className="text-[10px] text-white/30 uppercase font-bold tracking-[0.2em]">Video Title</label>
+        {/* --- LEFT: COMMAND CENTER (INPUTS) --- */}
+        <div className="lg:col-span-4 space-y-6">
+          <div className="bg-[#0a0a0a] border border-white/10 p-6 rounded-[2rem] shadow-2xl relative overflow-hidden group">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-600 to-transparent"></div>
+            <h2 className="text-xs font-black text-yellow-500 mb-6 uppercase tracking-[0.2em]">Input Content</h2>
+            
+            <div className="space-y-5">
+              <div>
+                <label className="text-[9px] text-gray-500 uppercase tracking-widest mb-2 block ml-1">Stream / Post Title</label>
                 <input 
                   type="text" 
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="w-full bg-white/[0.03] border border-white/10 rounded-2xl p-5 text-white focus:border-royal-gold outline-none transition-all"
+                  value={post.title}
+                  onChange={(e) => setPost({...post, title: e.target.value})}
+                  className="w-full bg-white/[0.03] border border-white/5 p-4 rounded-2xl focus:border-yellow-500/50 outline-none transition-all text-sm placeholder:text-gray-700"
+                  placeholder="The Golden Hour..."
                 />
               </div>
-              <div className="space-y-2">
-                <label className="text-[10px] text-white/30 uppercase font-bold tracking-[0.2em]">Description</label>
-                <textarea 
-                  className="w-full h-44 bg-white/[0.03] border border-white/10 rounded-2xl p-5 text-white focus:border-royal-gold outline-none transition-all resize-none"
-                  placeholder="Tell your story..."
-                />
-              </div>
-            </div>
-          </Widget>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Widget title="Thumbnail">
-              <div className="mt-2 h-44 border-2 border-dashed border-white/10 rounded-[2rem] flex flex-col items-center justify-center gap-2 hover:border-royal-gold/40 transition-all cursor-pointer group">
-                <ImageIcon size={32} className="text-white/10 group-hover:text-royal-gold" />
-                <p className="text-[10px] text-white/20 uppercase font-bold">Upload Media</p>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-[9px] text-gray-500 uppercase tracking-widest mb-2 block ml-1">Category</label>
+                  <select 
+                    value={post.category}
+                    onChange={(e) => setPost({...post, category: e.target.value})}
+                    className="w-full bg-white/[0.03] border border-white/5 p-4 rounded-2xl focus:border-yellow-500/50 outline-none text-xs appearance-none cursor-pointer"
+                  >
+                    <option>Luxury Lifestyle</option>
+                    <option>Tech Elite</option>
+                    <option>Architecture</option>
+                    <option>Aura Vlogs</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-[9px] text-gray-500 uppercase tracking-widest mb-2 block ml-1">Thumbnail URL</label>
+                  <input 
+                    type="text" 
+                    onChange={(e) => setPost({...post, thumbnail: e.target.value})}
+                    className="w-full bg-white/[0.03] border border-white/5 p-4 rounded-2xl focus:border-yellow-500/50 outline-none text-xs"
+                    placeholder="Image URL..."
+                  />
+                </div>
               </div>
-            </Widget>
-            <Widget title="AI Intelligence">
-              <div className="mt-4 space-y-4">
-                <p className="text-xs text-white/30 leading-relaxed font-light">Generate SEO tags and high-conversion captions using AuraAI.</p>
-                <button className="w-full py-4 bg-white/5 rounded-2xl text-[10px] uppercase font-bold tracking-widest flex items-center justify-center gap-2 hover:bg-white/10 border border-white/10">
-                  <Sparkles size={16} className="text-royal-gold" /> Magic Tags
-                </button>
+
+              <div>
+                <label className="text-[9px] text-gray-500 uppercase tracking-widest mb-2 block ml-1">Brief Description</label>
+                <textarea 
+                  rows="3"
+                  value={post.description}
+                  onChange={(e) => setPost({...post, description: e.target.value})}
+                  className="w-full bg-white/[0.03] border border-white/5 p-4 rounded-2xl focus:border-yellow-500/50 outline-none transition-all text-sm resize-none"
+                  placeholder="Define the aura..."
+                ></textarea>
               </div>
-            </Widget>
+
+              <button 
+                onClick={handlePublish}
+                className="w-full py-5 bg-gradient-to-r from-yellow-600 to-yellow-400 text-black font-black uppercase text-[10px] tracking-[0.3em] rounded-2xl hover:scale-[1.02] active:scale-95 transition-all shadow-[0_20px_40px_rgba(202,138,4,0.2)]"
+              >
+                Publish Experience
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* RIGHT COLUMN: Mobile Preview (4 of 12 Columns) */}
-        <div className="order-1 lg:order-2 lg:col-span-4 w-full flex justify-center lg:justify-end">
-          <div className="sticky top-10 flex flex-col items-center w-full max-w-[320px]">
-            <p className="text-[10px] text-white/20 uppercase tracking-[0.4em] mb-6 flex items-center gap-2">
-              <Smartphone size={14} /> Live Sync
-            </p>
+        {/* --- MIDDLE: LIVE PREVIEW --- */}
+        <div className="lg:col-span-4 space-y-6">
+          <div className="bg-[#0a0a0a] border border-white/10 p-2 rounded-[2.5rem] overflow-hidden relative">
+            <div className="absolute top-6 left-6 z-10 bg-red-600 px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest animate-pulse">Live Preview</div>
+            <img 
+              src={post.thumbnail} 
+              alt="Preview" 
+              className="w-full h-[450px] object-cover rounded-[2rem] opacity-60 grayscale hover:grayscale-0 transition-all duration-700"
+            />
+            <div className="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black via-black/80 to-transparent">
+              <p className="text-yellow-500 text-[9px] font-bold uppercase tracking-[0.2em] mb-2">{post.category}</p>
+              <h3 className="text-2xl font-bold mb-3 leading-tight">{post.title || "Your Title Here"}</h3>
+              <p className="text-gray-400 text-xs line-clamp-2 italic">"{post.description || "No description provided yet..."}"</p>
+            </div>
+          </div>
+        </div>
 
-            {/* IPHONE MOCKUP */}
-            <div className="relative w-full aspect-[9/19] bg-black border-[12px] border-[#151515] rounded-[3.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden ring-1 ring-white/10">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-7 bg-[#151515] rounded-b-3xl z-20" />
-              <div className="h-full w-full flex flex-col bg-[#050505]">
-                <div className="h-1/2 bg-gradient-to-br from-royal-gold/30 to-transparent flex items-center justify-center">
-                   <Upload className="text-royal-gold/40 animate-pulse" size={40} />
+        {/* --- RIGHT: ACTIVITY FEED --- */}
+        <div className="lg:col-span-4 space-y-6">
+          <div className="bg-[#0a0a0a] border border-white/10 p-6 rounded-[2rem] h-[580px] flex flex-col">
+            <h2 className="text-[10px] font-black text-gray-500 mb-6 uppercase tracking-[0.2em]">Recently Published</h2>
+            
+            <div className="flex-1 overflow-y-auto space-y-4 pr-2 custom-scrollbar">
+              {feed.length === 0 && (
+                <div className="h-full flex flex-col items-center justify-center opacity-20">
+                  <Layout size={48} className="mb-4" />
+                  <p className="text-[10px] uppercase tracking-widest">No Records Found</p>
                 </div>
-                <div className="p-6 space-y-4 flex-1 bg-black/60 backdrop-blur-2xl">
-                   <h3 className="text-white text-sm font-semibold truncate-2-lines">{title}</h3>
-                   <div className="w-12 h-1 bg-royal-gold/20 rounded-full" />
-                   <div className="flex gap-2 pt-8">
-                      <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white/30"><Share2 size={16}/></div>
-                      <div className="flex-1 h-10 bg-royal-gold rounded-xl flex items-center justify-center text-[11px] font-black text-black uppercase">Subscribe</div>
-                   </div>
+              )}
+
+              {feed.map((item) => (
+                <div key={item.id} className="group bg-white/[0.02] border border-white/5 p-4 rounded-2xl hover:bg-white/[0.05] transition-all">
+                  <div className="flex gap-4 items-center">
+                    <img src={item.thumbnail} className="w-12 h-12 rounded-xl object-cover grayscale group-hover:grayscale-0 transition-all" />
+                    <div className="flex-1">
+                      <h4 className="text-xs font-bold truncate w-40">{item.title}</h4>
+                      <p className="text-[9px] text-gray-600 uppercase tracking-tighter mt-1">{item.date} • {item.category}</p>
+                    </div>
+                    <button onClick={() => deleteEntry(item.id)} className="p-2 text-gray-800 hover:text-red-500 transition-colors">
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
