@@ -45,7 +45,7 @@ const Home = () => {
             Aura<span className="text-royal-gold font-normal italic">OS</span>
           </h1>
           <p className="text-white/20 mt-2 font-light text-sm md:text-lg italic">
-            Command Center / <span className="text-white/80 font-medium not-italic">Alishba Dev</span>
+            Dashboard / <span className="text-white/80 font-medium not-italic">Alishba Dev</span>
           </p>
         </div>
         

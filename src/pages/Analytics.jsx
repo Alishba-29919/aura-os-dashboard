@@ -33,7 +33,7 @@ const Analytics = () => {
     <p className="text-white/20 mt-2 font-light text-sm">Real-time data visualization</p>
   </div>
   
-  {/* Filter Box: Mobile par full width, Desktop par auto */}
+  {/* Filter Box: on mobile full width, on desktop  auto */}
   <div className="flex w-full sm:w-auto gap-2 bg-white/5 p-1 rounded-xl border border-white/10">
     <button className="flex-1 sm:flex-none px-4 py-2 text-[10px] text-royal-gold bg-royal-gold/10 rounded-lg font-medium">7 Days</button>
     <button className="flex-1 sm:flex-none px-4 py-2 text-[10px] text-white/30 hover:text-white transition-all">30 Days</button>

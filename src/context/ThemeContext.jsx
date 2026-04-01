@@ -25,5 +25,6 @@ export const ThemeProvider = ({ children }) => {
   );
 };
 
-// Custom Hook taake bar bar useContext use na karna pare
+// Custom Hook so that not need to import useContext
+//  and ThemeContext in every component
 export const useTheme = () => useContext(ThemeContext);
