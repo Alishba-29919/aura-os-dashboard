@@ -1,16 +1,33 @@
-# React + Vite
+#  AuraOS — Luxury Creator Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
-Currently, two official plugins are available:
+**AuraOS** is a high-end, glassmorphic administrative dashboard designed specifically for elite content creators. Built by **Alishba Dev**, it combines aesthetic luxury with powerful functionality to manage digital presence with style.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+[ Live Demo on Vercel] aura-os-dashboard.vercel.app
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+##  Premium Features
 
-## Expanding the ESLint configuration
+-   ** Live Streaming Studio:** A simulated professional broadcast interface with real-time status indicators.
+-   ** Smart Content Planner:** Fully functional scheduling system to manage upcoming posts and events.
+-   ** Advanced Command Search:** Instant filtering and global search with a floating result panel.
+-   ** Creator Analytics:** Real-time tracking of subscribers, engagement, and revenue with a premium dark UI.
+-   ** Fully Responsive:** Crafted to look stunning on 4K monitors down to mobile devices.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+##  Tech Stack
+
+-   **Frontend:** React.js (Vite)
+-   **Styling:** Tailwind CSS (Luxury Dark Theme)
+-   **Icons:** Lucide React
+-   **Animations:** Framer Motion (Smooth Transitions)
+-   **Deployment:** Vercel
+
+---
+
